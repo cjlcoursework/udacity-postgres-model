@@ -96,7 +96,7 @@ values(%s,%s,%s,%s,%s,%s,%s,%s) on conflict do nothing
 
 # FIND SONGS  -- almost no hits on join
 song_select = (f"""
-select da.artist_id, ds.song_id from {SONG_TABLE_NAME} ds
+select ds.song_id, da.artist_id from {SONG_TABLE_NAME} ds
 join {ARTIST_TABLE_NAME} da on ds.artist_id = da.artist_id
 where title=%s and da.name=%s and ds.duration=%s
 limit 1""")
