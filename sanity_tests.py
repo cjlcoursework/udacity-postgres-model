@@ -11,7 +11,9 @@ class MyTestCase(unittest.TestCase):
 
     def head_table(self, table_name: str, limit: int):
         """
-        internal inserter into Postgres
+        This is the common select/assert utility used by other tests.
+        It runs a select statement against the table_name sent in
+        and asserts that th row count is the same as the limit passed in
 
         Parameters
         ----------
@@ -25,32 +27,6 @@ class MyTestCase(unittest.TestCase):
         cur.execute(f"SELECT * FROM {table_name} LIMIT {limit}")
         results = cur.fetchall()
         self.assertEqual(len(results), limit)  # add assertion here
-
-    def test_kitchen_sink(self):
-        """
-        internal inserter into Postgres
-
-        Parameters
-        ----------
-        table_name : the name of the table to query
-        limit : how many records to pull down
-
-        Returns
-        -------
-        pass/fail
-        """
-        cur.execute(f"""
-        select sp.start_time, sp.location, ds.title, da.name, dt.year, dt.month, dt.day
-        from song_plays sp
-        join dim_song ds on sp.song_id = ds.song_id
-        join dim_artist da on sp.artist_id = da.artist_id
-        join dim_time dt on sp.start_time = dt.start_time
-        where sp.song_id is not null    
-        """)
-
-        results = cur.fetchall()
-        self.assertEqual(len(results), 1)
-        # add assertion here
 
     def test_basic_songplay(self):
         """
@@ -82,7 +58,7 @@ class MyTestCase(unittest.TestCase):
         """
         self.head_table("dim_song", 5)
 
-    def test_join_songplay(self):
+    def test_find_hits(self):
         """
         select from the dim_song table
         """
@@ -90,13 +66,22 @@ class MyTestCase(unittest.TestCase):
         results = cur.fetchall()
         self.assertEqual(len(results), 1)  # add assertion here
 
-    def test_join_songplay(self):
+    def test_kitchen_sink(self):
         """
-        select from the dim_song table
+        join everything together and look for the ONE record that has all primary and foreign keys matching
         """
-        cur.execute("SELECT * FROM song_plays where song_id is not null LIMIT 50")
+        cur.execute(f"""
+        select sp.start_time, sp.location, ds.title, da.name, dt.year, dt.month, dt.day
+        from song_plays sp
+        join dim_song ds on sp.song_id = ds.song_id
+        join dim_artist da on sp.artist_id = da.artist_id
+        join dim_time dt on sp.start_time = dt.start_time
+        where sp.song_id is not null    
+        """)
+
         results = cur.fetchall()
-        self.assertEqual(len(results), 1)  # add assertion here
+        self.assertEqual(len(results), 1)
+        # add assertion here
 
 
 if __name__ == '__main__':

@@ -22,12 +22,16 @@ def process_song_file(cur, filepath):
     # open song file
     df = pd.read_json(filepath, typ='series')
 
-    # insert song record
-    song_data = list(df[["song_id", "title", "artist_id", "year", "duration"]])
+    # insert song record - todo try the alternate method in the jupyter file
+    song_df = df[["song_id", "title", "artist_id", "year", "duration"]]
+    song_data = song_df.to_numpy().tolist()
+
+    # song_data = list(df[["song_id", "title", "artist_id", "year", "duration"]])
     v = cur.execute(song_table_insert, song_data)
 
     # insert artist record
-    artist_data = list(df[["artist_id", "artist_name", "artist_location", "artist_latitude", "artist_longitude"]])
+    artist_df = df[["artist_id", "artist_name", "artist_location", "artist_latitude", "artist_longitude"]]
+    artist_data = artist_df.to_numpy().tolist()
     cur.execute(artist_table_insert, artist_data)
 
 
@@ -69,7 +73,7 @@ def process_log_file(cur, filepath):
         l = list(row)
         v = cur.execute(time_table_insert, l)
 
-    # load user table
+    # load user table - todo get ri of the list() here
     user_df = df[["userId", "firstName", "lastName", "gender", "level"]]
     for i, row in user_df.iterrows():
         l = list(row)
