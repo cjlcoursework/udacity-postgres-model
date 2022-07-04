@@ -35,6 +35,8 @@ Some possible variations are:
 
 ## State and justify your database schema design and ETL pipeline.
 - The schema is the same one required by the Udacity instructions.  
+  - I decided that it would be confusing to stray too far from that design 
+  - So I stuck with the schema, code and approach from the project instructions
 - The basic fact is that a user listened to a song 
 - Information specific to the song, the artist, the listener (user) and the time are obvious dimensions
 
