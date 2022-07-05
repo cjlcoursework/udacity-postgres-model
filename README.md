@@ -1,5 +1,9 @@
 Do the following steps in your README.md file.
-
+## Second submission - change notes
+- [x] Make sure to use correct data types, like for songplay_id it should be SERIAL and for user_id it should be INT.
+- [x] The tables currently do not specify NOT NULLs. Please revise your sql_queries.py with that info. 
+- [x] You should run the tests under the Sanity Tests section at the end of the test.ipynb notebook to check your work for obvious errors.
+---
 ## The purpose of this database 
 To join `event` data (from log_data/) with additional `dimensional` data from songs_data/`
 The basic schema comes from the project instructions, and they looked reasonable,and I stayed close to those requirements to avoid confusion.
@@ -24,6 +28,10 @@ Some possible variations are:
 ---
 - `data/`  -- data provided by udacity
 - `notebooks/`  -- contains completed jupyter notebooks originally provided by udacity
+  - `etl.ipynb` -- completed etl
+  - `test.ipynb` -- tests and sanity check run
+  - `test_completed.html` -- tests and sanity check run and exported to html
+
 - `outputs/`  -- the results of the sanity (unit) tests
 ---
 - `sql_queries.py`  -- completed create, select and insert statements

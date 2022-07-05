@@ -32,7 +32,7 @@ class MyTestCase(unittest.TestCase):
         """
         select from the song_play table
         """
-        self.head_table("song_plays", 15)
+        self.head_table("songplays", 15)
 
     def test_basic_users(self):
         """
@@ -62,7 +62,7 @@ class MyTestCase(unittest.TestCase):
         """
         select from the dim_song table
         """
-        cur.execute("SELECT * FROM song_plays where song_id is not null LIMIT 50")
+        cur.execute("SELECT * FROM songplays where song_id is not null LIMIT 50")
         results = cur.fetchall()
         self.assertEqual(len(results), 1)  # add assertion here
 
@@ -72,7 +72,7 @@ class MyTestCase(unittest.TestCase):
         """
         cur.execute(f"""
         select sp.start_time, sp.location, ds.title, da.name, dt.year, dt.month, dt.day
-        from song_plays sp
+        from songplays sp
         join dim_song ds on sp.song_id = ds.song_id
         join dim_artist da on sp.artist_id = da.artist_id
         join dim_time dt on sp.start_time = dt.start_time

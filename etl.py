@@ -68,7 +68,7 @@ def process_log_file(cur, filepath):
     df['weekday'] = df['start_date'].dt.dayofweek
     # print(df.head())
     # df.info()
-    time_df = df[["start_time", "start_date", "hour", "day", "week", "month", "year", "weekday"]]
+    time_df = df[["start_date", "hour", "day", "week", "month", "year", "weekday"]]
     for i, row in time_df.iterrows():
         l = list(row)
         v = cur.execute(time_table_insert, l)
@@ -76,8 +76,9 @@ def process_log_file(cur, filepath):
     # load user table - todo get ri of the list() here
     user_df = df[["userId", "firstName", "lastName", "gender", "level"]]
     for i, row in user_df.iterrows():
-        l = list(row)
-        cur.execute(user_table_insert, l)
+        base = list(row)
+        user_record = base + base[1:5]
+        cur.execute(user_table_insert, user_record)
 
     # load song_play fact records
     for index, row in df.iterrows():
@@ -91,7 +92,7 @@ def process_log_file(cur, filepath):
             songid, artistid = results
 
         # insert songplay record
-        songplay_data = [str(uuid.uuid4()), row.start_time, row.userId, row.level, songid, artistid, row.sessionId,
+        songplay_data = [row.start_date, row.userId, row.level, songid, artistid, row.sessionId,
                          row.location, row.userAgent]
         cur.execute(songplay_table_insert, songplay_data)
 

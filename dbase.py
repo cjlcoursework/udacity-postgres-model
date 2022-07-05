@@ -2,7 +2,7 @@ import psycopg2
 
 DATABASE_NAME = "sparkifydb"
 
-SONG_PLAY_TABLE_NAME = "song_plays"
+SONG_PLAY_TABLE_NAME = "songplays"
 USER_TABLE_NAME = "dim_user"
 SONG_TABLE_NAME = "dim_song"
 ARTIST_TABLE_NAME = "dim_artist"
